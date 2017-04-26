@@ -33,6 +33,8 @@ Controller::Controller(View* v, Server *s)
     isActive = global::isRunning;
     view = v;
     server = s;
+    there_is_more = false;
+    more_left = 0;
     inputHistory.clear();
     suggestions.clear();
 }
@@ -67,7 +69,7 @@ void Controller::messageReceived(char* recvbuf, int recvbuflen, unsigned int iRe
     suggestions = createSuggestionVector(sv_str);
 
     if(suggestions.size() != 0)
-        view->displaySuggestions(suggestions, current_stroke);
+        view->displaySuggestions(suggestions, current_stroke, more_left);
     else
         view->hidePopup();
 
@@ -94,11 +96,22 @@ std::vector<Suggestion> Controller::buildSuggestions(std::string sv_str)
         std::string stroke;
         getline(sparts, stroke, STROKE_DELIMETER_CHAR);
         getline(sparts, translation, STROKE_DELIMETER_CHAR);
+
+        //std::cout << stroke << std::endl;
         if(stroke == CURRENT_STROKE)
             storeCurrentStroke(&sparts, translation);
+        else if(stroke == "ime--lop"){
+            there_is_more = true;
+            more_left = atoi(translation.c_str());
+            //std::cout << more_left << std::endl;
+        }
         else
             addSuggestionToSuggs(&suggs, stroke, translation);
+
     }
+    if(there_is_more)   there_is_more = false;
+    else                more_left = 0;
+
     return suggs;
 }
 
@@ -160,7 +173,7 @@ void Controller::proceedStop()
 
 void Controller::proceedShow()
 {
-        view->displaySuggestions(suggestions, current_stroke);
+        view->displaySuggestions(suggestions, current_stroke, more_left);
 }
 
 void Controller::proceedHide()

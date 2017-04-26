@@ -24,6 +24,9 @@ private: /* members */
     std::vector<Suggestion> suggestions;
     Suggestion current_stroke;
     //std::wstring current_stroke;
+    bool there_is_more;
+    int more_left;
+
 
 public:  /* methods */
     Controller(View*, Server*);

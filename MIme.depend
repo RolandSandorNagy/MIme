@@ -26,13 +26,13 @@
 	<TCHAR.h>
 	<Shlobj.h>
 
-1493193269 source:c:\users\rol\documents\codeblocks\projects\mime\controller.cpp
+1493248336 source:c:\users\rol\documents\codeblocks\projects\mime\controller.cpp
 	"Controller.h"
 	"Server.h"
 	"View.h"
 	<ctime>
 
-1493193163 c:\users\rol\documents\codeblocks\projects\mime\controller.h
+1493247784 c:\users\rol\documents\codeblocks\projects\mime\controller.h
 	"includes.h"
 	"Suggestion.h"
 
@@ -46,7 +46,7 @@
 
 1493193184 c:\users\rol\documents\codeblocks\projects\mime\defines.h
 
-1493193221 c:\users\rol\documents\codeblocks\projects\mime\view.h
+1493248800 c:\users\rol\documents\codeblocks\projects\mime\view.h
 	"defines.h"
 	"includes.h"
 	"Suggestion.h"
@@ -68,6 +68,7 @@
 1493193320 source:c:\users\rol\documents\codeblocks\projects\mime\suggestion.cpp
 	"Suggestion.h"
 
-1493219597 source:c:\users\rol\documents\codeblocks\projects\mime\view.cpp
+1493249355 source:c:\users\rol\documents\codeblocks\projects\mime\view.cpp
 	"View.h"
+	<sstream>
 

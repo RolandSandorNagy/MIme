@@ -27,6 +27,7 @@ private: /* members */
     int popupH2;
     int ln;
     COLORREF blackColor;
+    COLORREF greyColor;
     COLORREF greenColor;
     COLORREF fontColor;
     COLORREF bgColor;
@@ -37,10 +38,11 @@ public: /* methods */
     View(HINSTANCE*);
     View();
     ~View();
-    void showPopup(std::vector<Suggestion>, std::wstring);
+    void showPopup(std::vector<Suggestion>, std::wstring, int);
+    void drawLeftMoreNumberOnPopUp(int);
     void hidePopup();
     void closeView();
-    void displaySuggestions(std::vector<Suggestion>, Suggestion);
+    void displaySuggestions(std::vector<Suggestion>, Suggestion, int);
     int getPopupTimeout();
     void setPopupTimeout(int);
 
@@ -54,7 +56,7 @@ private: /* methods */
     void drawStringOnPopUp(Suggestion s);
     void handleNextLine(HDC);
     void clearPopup(int);
-    void adjustPopUp(int, int, int);
+    void adjustPopUp(int, int, int, int);
     void avoidScreenEdges(POINT*);
     POINT getCaretPosition();
     int getMaxTextLength(std::vector<Suggestion>);
