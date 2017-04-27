@@ -27,6 +27,7 @@ private: /* members */
     int popupH2;
     int popupH3;
     int ln;
+    COLORREF borderColor;
     COLORREF blackColor;
     COLORREF greyColor;
     COLORREF greenColor;
@@ -56,6 +57,7 @@ private: /* methods */
     void movePopup(int, int, int, int);
     void drawCurrentStringOnPopUp(Suggestion);
     void drawStringOnPopUp(Suggestion s);
+    std::wstring formatOutline(std::wstring);
     void handleNextLine(HDC);
     void clearPopup(int);
     void adjustPopUp(int, int, int, int);
