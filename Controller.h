@@ -26,6 +26,7 @@ private: /* members */
     //std::wstring current_stroke;
     bool there_is_more;
     int more_left;
+    bool last_msg_was_Show_or_Hide;
 
 
 public:  /* methods */

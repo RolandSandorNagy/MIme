@@ -8,7 +8,7 @@
 #define DEFAULT_POPUP_WIDTH 300
 #define PLOVER_GRAY 240
 #define MARGIN 5
-#define LINE_HEIGHT 15
+#define LINE_HEIGHT 18
 #define MULT_WIDTH 75
 #define SUG_WIDTH 10
 #define MAX_LINES 20
@@ -104,16 +104,38 @@ void View::createWindow()
                             NULL);
 }
 
-void View::showPopup(std::vector<Suggestion> suggestions, std::wstring current, int more_left)
+void View::showPopup(std::vector<Suggestion> suggestions, Suggestion current, int more_left)
 {
     ShowWindow(hwnd, SW_SHOW);
     clearPopup(MAX_LINES + 1);
-    //drawCurrentStringOnPopUp(suggestions[suggestions.size() - 1]);
-    for(int i = suggestions.size() - 2; i >= 0 /*&& suggestions.size() - i < MAX_SUGGS*/; --i)
+    drawCurrentStringOnPopUp(current);
+    for(int i = suggestions.size() - 1; i >= 0 /*&& suggestions.size() - i < MAX_SUGGS*/; --i)
         drawStringOnPopUp(suggestions[i]);
 
     if(more_left > 0)
         drawLeftMoreNumberOnPopUp(more_left);
+
+    drawPopupBorder();
+}
+
+void View::drawPopupBorder()
+{
+	HDC hDC = GetDC(hwnd);
+
+	SetBkColor(hDC, bgColor);
+	SetTextColor(hDC, greyColor);
+
+    MoveToEx(hDC, 1, 1, NULL);
+    LineTo(hDC, popupWidth, 1);
+
+    MoveToEx(hDC, 1, 1, NULL);
+    LineTo(hDC, 1, popupHeight);
+
+    MoveToEx(hDC, popupWidth, popupHeight -1, NULL);
+    LineTo(hDC, 1, popupHeight -1);
+
+    MoveToEx(hDC, popupWidth - 1, popupHeight, NULL);
+    LineTo(hDC, popupWidth - 1, 1);
 }
 
 void View::drawLeftMoreNumberOnPopUp(int more_left)
@@ -133,16 +155,13 @@ void View::drawLeftMoreNumberOnPopUp(int more_left)
     std::wstring more_left_wstr = global::s2ws(more_left_str, &size_needed);
 
     rect.left   = (popupWidth / 2) - (more_left_str.size() * CHAR_WIDTH / 2 );
-    rect.top    = popupHeight - LINE_HEIGHT;
+    rect.top    = popupHeight -  popupH3 + 2 * MARGIN;
     rect.right  = popupWidth;
     rect.bottom = popupHeight;
 
     DrawText(hDC, more_left_wstr.c_str(), more_left_wstr.length(), &rect, 0);
 
-    SetBkColor(hDC, bgColor);
-	SetTextColor(hDC, blackColor);
-
-    MoveToEx(hDC, 0, rect.top /*popupH1*/, NULL);
+    MoveToEx(hDC, 1, rect.top /*popupH1*/, NULL);
     LineTo(hDC, popupWidth, rect.top /*popupH1*/);
 
 	EndPaint(hwnd, &ps);
@@ -171,7 +190,7 @@ void View::drawCurrentStringOnPopUp(Suggestion current)
     rect.left   = MARGIN;
     rect.top    = MARGIN;
     rect.right  = popupW1;
-    rect.bottom = popupHeight; //popupH1;
+    rect.bottom = popupH1; //popupHeight;
     DrawText(hDC, current.getWStroke().c_str(), current.getWStroke().length(), &rect, 0);
 
     SetBkColor(hDC, bgColor);
@@ -181,8 +200,8 @@ void View::drawCurrentStringOnPopUp(Suggestion current)
     rect.right += popupWidth;
     DrawText(hDC, current.getWText().c_str(), current.getWText().length(), &rect, 0);
 
-    MoveToEx(hDC, 0, popupHeight /*popupH1*/, NULL);
-    LineTo(hDC, popupWidth, popupHeight /*popupH1*/);
+    MoveToEx(hDC, 1, popupH1, NULL);
+    LineTo(hDC, popupWidth, popupH1);
 
 	EndPaint(hwnd, &ps);
 }
@@ -198,9 +217,9 @@ void View::drawStringOnPopUp(Suggestion s)
 	SetTextColor(hDC, blackColor);
 
     rect.left   = MARGIN;
-    rect.top    = /*2 * MARGIN + popupH1*/MARGIN + ln * LINE_HEIGHT;
+    rect.top    = 2 * MARGIN + popupH1 + ln * LINE_HEIGHT;
     rect.right  = popupW1;
-    rect.bottom = popupHeight + ln * LINE_HEIGHT;
+    rect.bottom = rect.top + LINE_HEIGHT;
     DrawText(hDC, s.getWStroke().c_str(), s.getWStroke().length(), &rect, 0);
 
     SetBkColor(hDC, bgColor);
@@ -245,35 +264,25 @@ void View::closeView()
 void View::displaySuggestions(std::vector<Suggestion> suggestions, Suggestion current, int more_left)
 {
     hidePopup();
-    suggestions.push_back(current);
     adjustPopUp(suggestions.size(), getMaxStrokeLength(suggestions), getMaxTextLength(suggestions), more_left);
-    showPopup(suggestions, current.getWStroke(), more_left);
+    showPopup(suggestions, current, more_left);
     hideTimeout();
 }
 
 void View::adjustPopUp(int entries, int maxTextLength, int maxStrokeLength, int more_left)
 {
-    //Sleep(100);
-
 	POINT p = getCaretPosition();
-    /*
-	if(p.x == 0 && p.y == 0)
-        std::cout << "carret position is (0,0)." << std::endl;
-	if(p.y < 35)
-	{
-		hidePopup();
-		return;
-	}
-    */
-	popupW1 = maxTextLength * CHAR_WIDTH /*+ 2 * MARGIN*/;
+
+	popupW1 = maxTextLength * CHAR_WIDTH;
 	popupW2 = GAP;
-	popupW3 = maxStrokeLength * CHAR_WIDTH /*+ 2 * MARGIN*/;
-	//popupH1 = LINE_HEIGHT + 2 * MARGIN;
-	popupH2 = entries * LINE_HEIGHT;
+	popupW3 = maxStrokeLength * CHAR_WIDTH;
+	popupH1 = LINE_HEIGHT + 2 * MARGIN;
+	popupH2 = (entries * LINE_HEIGHT + 2 * MARGIN);
+	popupH3 = 0;
 	if(more_left > 0)
-        popupH2 += LINE_HEIGHT;
+        popupH3 += (LINE_HEIGHT + 2 * MARGIN);
 	popupWidth = popupW1 + popupW2 + popupW3;
-	popupHeight = /*popupH1 +*/ popupH2;
+	popupHeight = popupH1 + popupH2 + popupH3;
 
 	avoidScreenEdges(&p);
 	movePopup(p.x + 3, p.y - 3, popupWidth, popupHeight);
@@ -343,7 +352,6 @@ int View::getMaxTextLength(std::vector<Suggestion> suggestions)
     for(int i = suggestions.size() - 1; i >= 0 && suggestions.size() - i < MAX_SUGGS; --i)
         if((int)suggestions[i].getWText().size() > max)
             max = suggestions[i].getWText().size();
-    //std::cout << "max text length: " << max << std::endl;
     return max;
 }
 

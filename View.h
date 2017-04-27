@@ -25,6 +25,7 @@ private: /* members */
     int popupHeight;
     int popupH1;
     int popupH2;
+    int popupH3;
     int ln;
     COLORREF blackColor;
     COLORREF greyColor;
@@ -38,7 +39,8 @@ public: /* methods */
     View(HINSTANCE*);
     View();
     ~View();
-    void showPopup(std::vector<Suggestion>, std::wstring, int);
+    void showPopup(std::vector<Suggestion>, Suggestion, int);
+    void drawPopupBorder();
     void drawLeftMoreNumberOnPopUp(int);
     void hidePopup();
     void closeView();

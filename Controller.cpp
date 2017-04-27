@@ -6,7 +6,7 @@
 
 #define CMD_PREFIX "CMD::"
 #define SAVE_FILE_NAME "lastinput.csv"
-#define NO_SUGGESTION "none"
+#define NO_SUGGESTION "none:none;"
 #define SUGG_DELIMETER_CHAR ';'
 #define STROKE_DELIMETER_CHAR ':'
 #define CURRENT_STROKE "c/u/r/r/e/n/t"
@@ -33,6 +33,7 @@ Controller::Controller(View* v, Server *s)
     isActive = global::isRunning;
     view = v;
     server = s;
+    last_msg_was_Show_or_Hide = false;
     there_is_more = false;
     more_left = 0;
     inputHistory.clear();
@@ -45,6 +46,12 @@ Controller::~Controller() {}
 
 void Controller::processMessage(char* recvbuf, int recvbuflen, unsigned int iResult)
 {
+    if(last_msg_was_Show_or_Hide)
+    {
+        last_msg_was_Show_or_Hide = false;
+        return;
+    }
+
     if(commandReceived(recvbuf))
         return;
     if(isActive)
@@ -69,10 +76,9 @@ void Controller::messageReceived(char* recvbuf, int recvbuflen, unsigned int iRe
     suggestions = createSuggestionVector(sv_str);
 
     if(suggestions.size() != 0)
-        view->displaySuggestions(suggestions, current_stroke, more_left);
+        proceedShow();
     else
-        view->hidePopup();
-
+        proceedHide();
 }
 
 std::vector<Suggestion> Controller::createSuggestionVector(std::string sv_str)
@@ -81,6 +87,7 @@ std::vector<Suggestion> Controller::createSuggestionVector(std::string sv_str)
     suggs.clear();
     if(sv_str == NO_SUGGESTION)
         return suggs;
+
     return buildSuggestions(sv_str);
 }
 
@@ -97,13 +104,11 @@ std::vector<Suggestion> Controller::buildSuggestions(std::string sv_str)
         getline(sparts, stroke, STROKE_DELIMETER_CHAR);
         getline(sparts, translation, STROKE_DELIMETER_CHAR);
 
-        //std::cout << stroke << std::endl;
         if(stroke == CURRENT_STROKE)
             storeCurrentStroke(&sparts, translation);
         else if(stroke == "ime--lop"){
             there_is_more = true;
             more_left = atoi(translation.c_str());
-            //std::cout << more_left << std::endl;
         }
         else
             addSuggestionToSuggs(&suggs, stroke, translation);
@@ -138,7 +143,7 @@ void Controller::addSuggestionToSuggs(std::vector<Suggestion> *suggs, std::strin
 
 void Controller::processCommand(std::string str)
 {
-    if(!isActive && str != "RESUME")
+    if(!isActive && str != "RESUME" && str != "STOP")
         return;
     else if(str == "PAUSE")
         proceedPause();
@@ -147,9 +152,15 @@ void Controller::processCommand(std::string str)
     else if(str == "STOP")
         proceedStop();
     else if(str == "SHOW")
+    {
+        last_msg_was_Show_or_Hide = true;
         proceedShow();
+    }
     else if(str == "HIDE")
+    {
+        last_msg_was_Show_or_Hide = true;
         proceedHide();
+    }
     else if(str == "SAVE")
         proceedSave();
 }
@@ -173,7 +184,7 @@ void Controller::proceedStop()
 
 void Controller::proceedShow()
 {
-        view->displaySuggestions(suggestions, current_stroke, more_left);
+    view->displaySuggestions(suggestions, current_stroke, more_left);
 }
 
 void Controller::proceedHide()
