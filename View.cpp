@@ -50,9 +50,10 @@ View::View(HINSTANCE* hInst)
 
     bgColor = RGB(PLOVER_GRAY, PLOVER_GRAY, PLOVER_GRAY);
     fontColor = RGB(227, 143, 41);
-    greenColor = RGB(108, 200, 20);
+    greenColor = RGB(178, 255, 120);
     blackColor = RGB(0, 0, 0);
     greyColor = RGB(140,140,140);
+    gray2Color = RGB(190,190,190);
     borderColor = RGB(172,172,172);
 
     initWincl(hInst);
@@ -143,17 +144,25 @@ void View::drawLeftMoreNumberOnPopUp(int more_left)
 {
 	PAINTSTRUCT ps;
 	RECT rect;
+	RECT rect_bk;
 
 	HDC hDC = GetDC(hwnd);
 
-	SetBkColor(hDC, bgColor);
-	SetTextColor(hDC, greyColor);
+	SetBkColor(hDC, gray2Color);
+	SetTextColor(hDC, bgColor);
 
     std::stringstream ss;
     ss << more_left;
     std::string more_left_str = ss.str() + " more available";
     int size_needed;
     std::wstring more_left_wstr = global::s2ws(more_left_str, &size_needed);
+
+    rect_bk.left   = 1;
+    rect_bk.top    = popupHeight -  popupH4 + 2 * MARGIN;
+    rect_bk.right  = popupWidth;
+    rect_bk.bottom = popupHeight;
+
+    FillRect(hDC, &rect_bk, (HBRUSH) CreateSolidBrush(gray2Color));
 
     rect.left   = (popupWidth / 2) - (more_left_str.size() * CHAR_WIDTH / 3 );
     rect.top    = popupHeight -  popupH4 + 2 * MARGIN;
@@ -187,7 +196,7 @@ void View::drawCurrentStringOnPopUp(Suggestion current)
 	HDC hDC = GetDC(hwnd);
 
 	//SetBkColor(hDC, bgColor);
-	SetBkColor(hDC, fontColor);
+	SetBkColor(hDC, gray2Color);
 	SetTextColor(hDC, greenColor);
 
 
@@ -195,7 +204,8 @@ void View::drawCurrentStringOnPopUp(Suggestion current)
     rect_bk.top    = 1;
     rect_bk.right  = popupWidth - 1;
     rect_bk.bottom = popupH1; //popupHeight;
-    FillRect(hDC, &rect_bk, (HBRUSH) CreateSolidBrush(fontColor));
+
+    FillRect(hDC, &rect_bk, (HBRUSH) CreateSolidBrush(gray2Color));
 
 
     rect.left   = MARGIN;
@@ -206,7 +216,7 @@ void View::drawCurrentStringOnPopUp(Suggestion current)
     DrawText(hDC, current.getWStroke().c_str(), current.getWStroke().length(), &rect, 0);
 
 	//SetBkColor(hDC, bgColor);
-	SetBkColor(hDC, fontColor);
+	SetBkColor(hDC, gray2Color);
 	SetTextColor(hDC, greenColor);
 
     rect.left   = MARGIN + rect.right + popupW2;

@@ -31,6 +31,7 @@ private: /* members */
     COLORREF borderColor;
     COLORREF blackColor;
     COLORREF greyColor;
+    COLORREF gray2Color;
     COLORREF greenColor;
     COLORREF fontColor;
     COLORREF bgColor;
