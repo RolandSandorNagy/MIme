@@ -123,8 +123,8 @@ void View::drawPopupBorder()
 {
 	HDC hDC = GetDC(hwnd);
 
-	SetBkColor(hDC, borderColor);
-	SetTextColor(hDC, borderColor);
+	//SetBkColor(hDC, borderColor);
+	//SetTextColor(hDC, borderColor);
 
     MoveToEx(hDC, 1, 1, NULL);
     LineTo(hDC, popupWidth, 1);
@@ -156,7 +156,7 @@ void View::drawLeftMoreNumberOnPopUp(int more_left)
     std::wstring more_left_wstr = global::s2ws(more_left_str, &size_needed);
 
     rect.left   = (popupWidth / 2) - (more_left_str.size() * CHAR_WIDTH / 3 );
-    rect.top    = popupHeight -  popupH3 + 2 * MARGIN;
+    rect.top    = popupHeight -  popupH4 + 2 * MARGIN;
     rect.right  = popupWidth;
     rect.bottom = popupHeight;
 
@@ -181,25 +181,39 @@ void View::movePopup(int x, int y, int width, int height)
 void View::drawCurrentStringOnPopUp(Suggestion current)
 {
 	PAINTSTRUCT ps;
+	RECT rect_bk;
 	RECT rect;
 
 	HDC hDC = GetDC(hwnd);
 
-	SetBkColor(hDC, bgColor);
+	//SetBkColor(hDC, bgColor);
+	SetBkColor(hDC, fontColor);
 	SetTextColor(hDC, greenColor);
+
+
+    rect_bk.left   = 1;
+    rect_bk.top    = 1;
+    rect_bk.right  = popupWidth - 1;
+    rect_bk.bottom = popupH1; //popupHeight;
+    FillRect(hDC, &rect_bk, (HBRUSH) CreateSolidBrush(fontColor));
+
 
     rect.left   = MARGIN;
     rect.top    = MARGIN;
     rect.right  = popupW1;
     rect.bottom = popupH1; //popupHeight;
+
     DrawText(hDC, current.getWStroke().c_str(), current.getWStroke().length(), &rect, 0);
 
-    SetBkColor(hDC, bgColor);
+	//SetBkColor(hDC, bgColor);
+	SetBkColor(hDC, fontColor);
 	SetTextColor(hDC, greenColor);
 
     rect.left   = MARGIN + rect.right + popupW2;
     rect.right += popupWidth;
-    DrawText(hDC, current.getWText().c_str(), current.getWText().length(), &rect, 0);
+    //DrawText(hDC, current.getWText().c_str(), current.getWText().length(), &rect, 0);
+    std::wstring ws = formatOutline(current.getWText());
+    DrawText(hDC, ws.c_str(), ws.length(), &rect, 0);
 
     MoveToEx(hDC, 1, popupH1, NULL);
     LineTo(hDC, popupWidth, popupH1);
@@ -286,6 +300,8 @@ void View::closeView()
 
 void View::displaySuggestions(std::vector<Suggestion> suggestions, Suggestion current, int more_left)
 {
+    Sleep(100);
+
     hidePopup();
     adjustPopUp(suggestions.size(), getMaxStrokeLength(suggestions), getMaxTextLength(suggestions), more_left);
     showPopup(suggestions, current, more_left);
@@ -302,10 +318,11 @@ void View::adjustPopUp(int entries, int maxTextLength, int maxStrokeLength, int 
 	popupH1 = LINE_HEIGHT + 2 * MARGIN;
 	popupH2 = (entries * LINE_HEIGHT + 2 * MARGIN);
 	popupH3 = 0;
+	popupH4 = 0;
 	if(more_left > 0)
-        popupH3 += (LINE_HEIGHT + 2 * MARGIN);
+        popupH4 += (LINE_HEIGHT + 2 * MARGIN);
 	popupWidth = popupW1 + popupW2 + popupW3;
-	popupHeight = popupH1 + popupH2 + popupH3;
+	popupHeight = popupH1 + popupH2 + popupH3 + popupH4;
 
 	avoidScreenEdges(&p);
 	movePopup(p.x + 3, p.y - 3, popupWidth, popupHeight);
@@ -448,6 +465,8 @@ void* ViewNS::wThreadMethod(void* hInst)
 void* ViewNS::toThreadMethod(void* id)
 {
     int to = ((View*)global::hgView)->getPopupTimeout();
+    if(to == 0)
+        return (void*) 0;
     Sleep(to * SECOND);
     if(((View*)global::hgView)->maxThreadId != (INT)id)
         return (void*) 1;

@@ -26,6 +26,7 @@ private: /* members */
     int popupH1;
     int popupH2;
     int popupH3;
+    int popupH4;
     int ln;
     COLORREF borderColor;
     COLORREF blackColor;
