@@ -195,7 +195,6 @@ void View::drawCurrentStringOnPopUp(Suggestion current)
 
 	HDC hDC = GetDC(hwnd);
 
-	//SetBkColor(hDC, bgColor);
 	SetBkColor(hDC, gray2Color);
 	SetTextColor(hDC, greenColor);
 
@@ -203,7 +202,7 @@ void View::drawCurrentStringOnPopUp(Suggestion current)
     rect_bk.left   = 1;
     rect_bk.top    = 1;
     rect_bk.right  = popupWidth - 1;
-    rect_bk.bottom = popupH1; //popupHeight;
+    rect_bk.bottom = popupH1;
 
     FillRect(hDC, &rect_bk, (HBRUSH) CreateSolidBrush(gray2Color));
 
@@ -211,17 +210,15 @@ void View::drawCurrentStringOnPopUp(Suggestion current)
     rect.left   = MARGIN;
     rect.top    = MARGIN;
     rect.right  = popupW1;
-    rect.bottom = popupH1; //popupHeight;
+    rect.bottom = popupH1;
 
     DrawText(hDC, current.getWStroke().c_str(), current.getWStroke().length(), &rect, 0);
 
-	//SetBkColor(hDC, bgColor);
 	SetBkColor(hDC, gray2Color);
 	SetTextColor(hDC, greenColor);
 
     rect.left   = MARGIN + rect.right + popupW2;
     rect.right += popupWidth;
-    //DrawText(hDC, current.getWText().c_str(), current.getWText().length(), &rect, 0);
     std::wstring ws = formatOutline(current.getWText());
     DrawText(hDC, ws.c_str(), ws.length(), &rect, 0);
 
@@ -252,7 +249,6 @@ void View::drawStringOnPopUp(Suggestion s)
 
     rect.left   = rect.right + popupW2;
     rect.right += popupW2 + popupW3;
-    //DrawText(hDC, s.getWText().c_str(), s.getWText().length(), &rect, 0);
     std::wstring ws = formatOutline(s.getWText());
     DrawText(hDC, ws.c_str(), ws.length(), &rect, 0);
 
