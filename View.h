@@ -30,6 +30,7 @@ private: /* members */
     int ln;
     COLORREF borderColor;
     COLORREF blackColor;
+    COLORREF whiteColor;
     COLORREF greyColor;
     COLORREF gray2Color;
     COLORREF greenColor;
@@ -42,12 +43,13 @@ public: /* methods */
     View(HINSTANCE*);
     View();
     ~View();
-    void showPopup(std::vector<Suggestion>, Suggestion, int);
+    void showPopup(std::vector<Suggestion>, std::vector<Suggestion>, Suggestion, int);
+    void drawAltersOnPopUp(std::vector<Suggestion>);
     void drawPopupBorder();
     void drawLeftMoreNumberOnPopUp(int);
     void hidePopup();
     void closeView();
-    void displaySuggestions(std::vector<Suggestion>, Suggestion, int);
+    void displaySuggestions(std::vector<Suggestion>, std::vector<Suggestion>, Suggestion, int);
     int getPopupTimeout();
     void setPopupTimeout(int);
 
@@ -62,11 +64,11 @@ private: /* methods */
     std::wstring formatOutline(std::wstring);
     void handleNextLine(HDC);
     void clearPopup(int);
-    void adjustPopUp(int, int, int, int);
+    void adjustPopUp(int, int, int, int, int);
     void avoidScreenEdges(POINT*);
     POINT getCaretPosition();
-    int getMaxTextLength(std::vector<Suggestion>);
-    int getMaxStrokeLength(std::vector<Suggestion>);
+    int getMaxTextLength(std::vector<Suggestion>, std::vector<Suggestion>);
+    int getMaxStrokeLength(std::vector<Suggestion>, std::vector<Suggestion>);
     void hideTimeout();
     std::wstring getSubWString(std::wstring, int, int);
 

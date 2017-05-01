@@ -22,6 +22,7 @@ private: /* members */
     std::wstring lastInput;
     std::vector<std::wstring> inputHistory;
     std::vector<Suggestion> suggestions;
+    std::vector<Suggestion> alters;
     Suggestion current_stroke;
     bool there_is_more;
     int more_left;
@@ -40,6 +41,7 @@ private: /* methods */
     void messageReceived(char*, int , unsigned int);
     std::vector<Suggestion> createSuggestionVector(std::string s);
     std::vector<Suggestion> buildSuggestions(std::string);
+    void storeAlters(std::stringstream*, std::string);
     void storeCurrentStroke(std::stringstream*, std::string);
     void addSuggestionToSuggs(std::vector<Suggestion>*, std::string, std::string);
     POINT getCaretPosition();

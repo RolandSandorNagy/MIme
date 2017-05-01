@@ -9,8 +9,9 @@
 #define NO_SUGGESTION "none:none;"
 #define SUGG_DELIMETER_CHAR ';'
 #define STROKE_DELIMETER_CHAR ':'
-#define CURRENT_STROKE "c/u/r/r/e/n/t"
-
+#define CURRENT_STROKE "ime--current"
+#define LEFT_OVER_POSS "ime--lop"
+#define ALTER "ime--alt"
 
 namespace global
 {
@@ -75,16 +76,17 @@ void Controller::messageReceived(char* recvbuf, int recvbuflen, unsigned int iRe
     suggestions.clear();
     suggestions = createSuggestionVector(sv_str);
 
-    if(suggestions.size() != 0)
+    //if(suggestions.size() != 0)
         proceedShow();
-    else
-        proceedHide();
+    //else
+        //proceedHide();
 }
 
 std::vector<Suggestion> Controller::createSuggestionVector(std::string sv_str)
 {
     std::vector<Suggestion> suggs;
     suggs.clear();
+    alters.clear();
     if(sv_str == NO_SUGGESTION)
         return suggs;
 
@@ -106,7 +108,9 @@ std::vector<Suggestion> Controller::buildSuggestions(std::string sv_str)
 
         if(stroke == CURRENT_STROKE)
             storeCurrentStroke(&sparts, translation);
-        else if(stroke == "ime--lop"){
+        else if(stroke == ALTER)
+            storeAlters(&sparts, translation);
+        else if(stroke == LEFT_OVER_POSS){
             there_is_more = true;
             more_left = atoi(translation.c_str());
         }
@@ -120,16 +124,31 @@ std::vector<Suggestion> Controller::buildSuggestions(std::string sv_str)
     return suggs;
 }
 
-void Controller::storeCurrentStroke(std::stringstream *sparts, std::string translation)
+void Controller::storeAlters(std::stringstream *sparts, std::string first_stroke)
 {
-    std::string translation2;
-    getline(*sparts, translation2, STROKE_DELIMETER_CHAR);
+    std::string stroke = first_stroke;
+    std::string translation;
+    getline(*sparts, translation, STROKE_DELIMETER_CHAR);
+
+    addSuggestionToSuggs(&alters, stroke, translation);
+
+    while( getline(*sparts, stroke, STROKE_DELIMETER_CHAR) )
+    {
+        getline(*sparts, translation, STROKE_DELIMETER_CHAR);
+        addSuggestionToSuggs(&alters, stroke, translation);
+    }
+}
+
+void Controller::storeCurrentStroke(std::stringstream *sparts, std::string stroke)
+{
+    std::string translation;
+    getline(*sparts, translation, STROKE_DELIMETER_CHAR);
     int size_needed;
-    if(translation2 == "none")
-        current_stroke.setWStroke(global::s2ws(translation, &size_needed));
+    if(translation == "none")
+        current_stroke.setWStroke(global::s2ws(stroke, &size_needed));
     else
-        current_stroke.setWStroke(global::s2ws(translation2, &size_needed));
-    current_stroke.setWText(global::s2ws(translation, &size_needed));
+        current_stroke.setWStroke(global::s2ws(translation, &size_needed));
+    current_stroke.setWText(global::s2ws(stroke, &size_needed));
 }
 
 void Controller::addSuggestionToSuggs(std::vector<Suggestion> *suggs, std::string stroke, std::string translation)
@@ -184,7 +203,7 @@ void Controller::proceedStop()
 
 void Controller::proceedShow()
 {
-    view->displaySuggestions(suggestions, current_stroke, more_left);
+    view->displaySuggestions(suggestions, alters, current_stroke, more_left);
 }
 
 void Controller::proceedHide()
