@@ -64,10 +64,6 @@ View::View(HINSTANCE* hInst)
     createWindow();
 }
 
-View::View() {}
-
-View::~View() {}
-
 void View::initWincl(HINSTANCE *hInst)
 {
     wincl.hInstance = *hInst;

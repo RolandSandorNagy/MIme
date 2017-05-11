@@ -41,12 +41,6 @@ private: /* members */
 
 public: /* methods */
     View(HINSTANCE*);
-    View();
-    ~View();
-    void showPopup(std::vector<Suggestion>, std::vector<Suggestion>, Suggestion, int);
-    void drawAltersOnPopUp(std::vector<Suggestion>);
-    void drawPopupBorder();
-    void drawLeftMoreNumberOnPopUp(int);
     void hidePopup();
     void closeView();
     void displaySuggestions(std::vector<Suggestion>, std::vector<Suggestion>, Suggestion, int);
@@ -59,8 +53,12 @@ private: /* methods */
     bool register_Class();
     void createWindow();
     void movePopup(int, int, int, int);
+    void showPopup(std::vector<Suggestion>, std::vector<Suggestion>, Suggestion, int);
+    void drawPopupBorder();
     void drawCurrentStringOnPopUp(Suggestion);
     void drawStringOnPopUp(Suggestion s);
+    void drawAltersOnPopUp(std::vector<Suggestion>);
+    void drawLeftMoreNumberOnPopUp(int);
     std::wstring formatOutline(std::wstring);
     void handleNextLine(HDC);
     void clearPopup(int);

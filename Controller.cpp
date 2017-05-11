@@ -68,11 +68,7 @@ void Controller::messageReceived(char* recvbuf, int recvbuflen, int iResult)
     std::string sv_str(recvbuf);
     suggestions.clear();
     suggestions = createSuggestionVector(sv_str);
-
-    //if(suggestions.size() != 0)
-        proceedShow();
-    //else
-        //proceedHide();
+    proceedShow();
 }
 
 std::vector<Suggestion> Controller::createSuggestionVector(std::string sv_str)
