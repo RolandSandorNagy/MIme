@@ -142,7 +142,7 @@ void View::drawAltersOnPopUp(std::vector<Suggestion> alters)
     MoveToEx(hDC, 1, popupH1 + popupH2 - 1, NULL);
     LineTo(hDC, popupWidth - 1, popupH1 + popupH2 - 1);
 
-    for(int i = 0; i < alters.size(); ++i)
+    for(int i = 0; i < (int)alters.size(); ++i)
     {
         SetBkColor(hDC, whiteColor);
         SetTextColor(hDC, blackColor);
@@ -305,7 +305,7 @@ std::wstring View::formatOutline(std::wstring outline)
     int size_needed;
     std::string str( outline.begin(), outline.end() );
     std::string str2 = "";
-    for(int i = 0; i < str.size(); ++i)
+    for(int i = 0; i < (int)str.size(); ++i)
     {
         if(str[i] == '/')
         {

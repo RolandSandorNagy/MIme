@@ -7,15 +7,7 @@
 #include "Config.h"
 
 
-class View;
 class Controller;
-
-
-struct thread_data{
-    HINSTANCE *hIns;
-    View *v;
-};
-
 
 
 class Server
@@ -26,24 +18,20 @@ public: /* members */
 
 private: /* members */
     Config* config;
-	WSADATA wsaData;
-	std::string host;
-	int port;
+    Controller *controller;
+
 	SOCKET ListenSocket;
 	SOCKET ClientSocket;
+	WSADATA wsaData;
 	struct addrinfo *result;
 	struct addrinfo hints;
-	int iResult;
-	int recvbuflen;
 	char recvbuf[DEFAULT_BUFLEN];
-    View *view;
-    Controller *controller;
+	int recvbuflen;
+	int iResult;
 
 
 public: /* methods */
     Server(Config*);
-    Server();
-    ~Server();
     void run();
 
 

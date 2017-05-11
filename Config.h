@@ -12,7 +12,6 @@ public: /* members */
 
 private: /* members */
     int popupTimeout;
-    int suggest_by;
     std::string host;
     std::string port;
     char folderPath[MAX_PATH];
@@ -20,7 +19,6 @@ private: /* members */
 
 public: /* methods */
     Config();
-    ~Config();
     std::string getHost();
     std::string getPort();
     int getPopupTimeout();

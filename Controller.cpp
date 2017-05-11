@@ -1,5 +1,4 @@
 #include "Controller.h"
-//#include "Server.h"
 #include "View.h"
 #include <ctime>
 
@@ -29,23 +28,17 @@ namespace global
 }
 
 
-Controller::Controller(View* v/*, Server *s*/)
+Controller::Controller(View* v)
 {
     isActive = global::isRunning;
     view = v;
-    //server = s;
     last_msg_was_Show_or_Hide = false;
     there_is_more = false;
     more_left = 0;
-    //inputHistory.clear();
     suggestions.clear();
 }
 
-Controller::Controller() {}
-
-Controller::~Controller() {}
-
-void Controller::processMessage(char* recvbuf, int recvbuflen, unsigned int iResult)
+void Controller::processMessage(char* recvbuf, int recvbuflen, int iResult)
 {
     if(last_msg_was_Show_or_Hide)
     {
@@ -70,7 +63,7 @@ bool Controller::commandReceived(char* recvbuf)
     return false;
 }
 
-void Controller::messageReceived(char* recvbuf, int recvbuflen, unsigned int iResult)
+void Controller::messageReceived(char* recvbuf, int recvbuflen, int iResult)
 {
     std::string sv_str(recvbuf);
     suggestions.clear();

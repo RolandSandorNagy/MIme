@@ -5,7 +5,6 @@
 #define CONFIG_FILE_NAME "\\plover.cfg"
 #define IME_CONFIG_SECTION "[Ime Configuration]"
 #define POPUP_TIMEOUT "popup_timeout = "
-#define SUGGEST_BY "suggest_by = "
 #define HOST "host = "
 #define PORT "port = "
 #define SECTION_START_CHAR '['
@@ -52,19 +51,12 @@ void Config::readDataFromConfigFile(std::ifstream *config_file)
         {
             if(line.find(POPUP_TIMEOUT) != std::string::npos)
                 popupTimeout = atoi(line.substr(strlen(POPUP_TIMEOUT), line.length()).c_str());
-            else if(line.find(SUGGEST_BY) != std::string::npos)
-                suggest_by = atoi(line.substr(strlen(SUGGEST_BY), line.length()).c_str());
             else if(line.find(HOST) != std::string::npos)
                 host = line.substr(strlen(HOST), line.length());
             else if(line.find(PORT) != std::string::npos)
                 port = line.substr(strlen(PORT), line.length());
         }
     }
-}
-
-Config::~Config()
-{
-
 }
 
 std::string Config::getHost()

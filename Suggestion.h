@@ -17,10 +17,8 @@ private: /* members */
 
 
 public:  /* methods */
-    Suggestion(int, std::wstring);
     Suggestion(int, std::wstring, std::wstring);
     Suggestion();
-    ~Suggestion();
     int getMultiplicity();
     std::wstring getWText();
     std::wstring getWStroke();

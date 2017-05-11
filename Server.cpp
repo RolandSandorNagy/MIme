@@ -33,10 +33,6 @@ Server::Server(Config* config)
     result = NULL;
 }
 
-Server::Server() {}
-
-Server::~Server() {}
-
 void Server::initServer(Config* conf)
 {
     config = conf;

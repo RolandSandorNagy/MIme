@@ -5,7 +5,6 @@
 #include "Suggestion.h"
 
 class View;
-//class Server;
 
 
 class Controller
@@ -16,35 +15,29 @@ public: /* members */
 
 private: /* members */
     View* view;
-    //Server* server;
     std::ofstream file;
-    bool isActive;
-    std::wstring lastInput;
-    //std::vector<std::wstring> inputHistory;
     std::vector<Suggestion> suggestions;
     std::vector<Suggestion> alters;
     Suggestion current_stroke;
-    bool there_is_more;
-    int more_left;
     bool last_msg_was_Show_or_Hide;
+    bool there_is_more;
+    bool isActive;
+    int more_left;
 
 
 public:  /* methods */
-    Controller(View*/*, Server**/);
-    Controller();
-    ~Controller();
-    void processMessage(char*, int, unsigned int);
+    Controller(View*);
+    void processMessage(char*, int, int);
 
 
 private: /* methods */
     bool commandReceived(char*);
-    void messageReceived(char*, int , unsigned int);
+    void messageReceived(char*, int, int);
     std::vector<Suggestion> createSuggestionVector(std::string s);
     std::vector<Suggestion> buildSuggestions(std::string);
     void storeAlters(std::stringstream*, std::string);
     void storeCurrentStroke(std::stringstream*, std::string);
     void addSuggestionToSuggs(std::vector<Suggestion>*, std::string, std::string);
-    POINT getCaretPosition();
     void processCommand(std::string);
     void proceedPause();
     void proceedResume();

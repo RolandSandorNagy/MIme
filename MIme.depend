@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1493193250 source:c:\users\rol\documents\codeblocks\projects\mime\config.cpp
+1494478285 source:c:\users\rol\documents\codeblocks\projects\mime\config.cpp
 	"Config.h"
 
-1493193156 c:\users\rol\documents\codeblocks\projects\mime\config.h
+1494477689 c:\users\rol\documents\codeblocks\projects\mime\config.h
 	"includes.h"
 
 1493193197 c:\users\rol\documents\codeblocks\projects\mime\includes.h
@@ -26,19 +26,19 @@
 	<TCHAR.h>
 	<Shlobj.h>
 
-1494432242 source:c:\users\rol\documents\codeblocks\projects\mime\controller.cpp
+1494476836 source:c:\users\rol\documents\codeblocks\projects\mime\controller.cpp
 	"Controller.h"
 	"View.h"
 	<ctime>
 
-1494432441 c:\users\rol\documents\codeblocks\projects\mime\controller.h
+1494476002 c:\users\rol\documents\codeblocks\projects\mime\controller.h
 	"includes.h"
 	"Suggestion.h"
 
-1493193213 c:\users\rol\documents\codeblocks\projects\mime\suggestion.h
+1494478635 c:\users\rol\documents\codeblocks\projects\mime\suggestion.h
 	"includes.h"
 
-1493193204 c:\users\rol\documents\codeblocks\projects\mime\server.h
+1494469937 c:\users\rol\documents\codeblocks\projects\mime\server.h
 	"defines.h"
 	"includes.h"
 	"Config.h"
@@ -59,15 +59,15 @@
 1493193190 c:\users\rol\documents\codeblocks\projects\mime\globals.h
 	"View.h"
 
-1494432283 source:c:\users\rol\documents\codeblocks\projects\mime\server.cpp
+1494467701 source:c:\users\rol\documents\codeblocks\projects\mime\server.cpp
 	"Server.h"
 	"View.h"
 	"Controller.h"
 
-1493193320 source:c:\users\rol\documents\codeblocks\projects\mime\suggestion.cpp
+1494478344 source:c:\users\rol\documents\codeblocks\projects\mime\suggestion.cpp
 	"Suggestion.h"
 
-1494345914 source:c:\users\rol\documents\codeblocks\projects\mime\view.cpp
+1494478383 source:c:\users\rol\documents\codeblocks\projects\mime\view.cpp
 	"View.h"
 	<sstream>
 

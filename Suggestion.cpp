@@ -1,12 +1,6 @@
 #include "Suggestion.h"
 
 
-Suggestion::Suggestion(int m, std::wstring wt)
-{
-    multiplicity = m;
-    wtext = wt;
-}
-
 Suggestion::Suggestion(int m, std::wstring wt, std::wstring ws)
 {
     multiplicity = m;
@@ -16,12 +10,9 @@ Suggestion::Suggestion(int m, std::wstring wt, std::wstring ws)
 
 Suggestion::Suggestion()
 {
-
-}
-
-Suggestion::~Suggestion()
-{
-
+    multiplicity = 0;
+    wtext = L"";
+    wstroke = L"";
 }
 
 int Suggestion::getMultiplicity()
