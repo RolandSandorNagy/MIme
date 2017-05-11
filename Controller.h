@@ -5,7 +5,7 @@
 #include "Suggestion.h"
 
 class View;
-class Server;
+//class Server;
 
 
 class Controller
@@ -16,11 +16,11 @@ public: /* members */
 
 private: /* members */
     View* view;
-    Server* server;
+    //Server* server;
     std::ofstream file;
     bool isActive;
     std::wstring lastInput;
-    std::vector<std::wstring> inputHistory;
+    //std::vector<std::wstring> inputHistory;
     std::vector<Suggestion> suggestions;
     std::vector<Suggestion> alters;
     Suggestion current_stroke;
@@ -30,7 +30,7 @@ private: /* members */
 
 
 public:  /* methods */
-    Controller(View*, Server*);
+    Controller(View*/*, Server**/);
     Controller();
     ~Controller();
     void processMessage(char*, int, unsigned int);

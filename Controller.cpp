@@ -1,11 +1,11 @@
 #include "Controller.h"
-#include "Server.h"
+//#include "Server.h"
 #include "View.h"
 #include <ctime>
 
 
 #define CMD_PREFIX "CMD::"
-#define SAVE_FILE_NAME "lastinput.csv"
+#define SAVE_FILE_NAME "save.csv"
 #define NO_SUGGESTION "none:none;"
 #define SUGG_DELIMETER_CHAR ';'
 #define STROKE_DELIMETER_CHAR ':'
@@ -29,15 +29,15 @@ namespace global
 }
 
 
-Controller::Controller(View* v, Server *s)
+Controller::Controller(View* v/*, Server *s*/)
 {
     isActive = global::isRunning;
     view = v;
-    server = s;
+    //server = s;
     last_msg_was_Show_or_Hide = false;
     there_is_more = false;
     more_left = 0;
-    inputHistory.clear();
+    //inputHistory.clear();
     suggestions.clear();
 }
 

@@ -171,9 +171,6 @@ void View::drawPopupBorder()
 {
 	HDC hDC = GetDC(hwnd);
 
-	//SetBkColor(hDC, borderColor);
-	//SetTextColor(hDC, borderColor);
-
     MoveToEx(hDC, 1, 1, NULL);
     LineTo(hDC, popupWidth, 1);
 

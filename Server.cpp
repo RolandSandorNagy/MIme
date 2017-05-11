@@ -29,7 +29,7 @@ namespace global
 Server::Server(Config* config)
 {
     initServer(config);
-    controller = (Controller*)new Controller(global::hgView, this);
+    controller = (Controller*)new Controller(global::hgView/*, this*/);
     result = NULL;
 }
 
